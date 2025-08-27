@@ -10,6 +10,7 @@ members = [
     "examples/file-sharing",
     "examples/identify",
     "examples/ipfs-kad",
+    "examples/miipfs",
     "examples/ipfs-private",
     "examples/metrics",
     "examples/ping",
@@ -66,6 +67,7 @@ members = [
     "transports/websocket",
     "transports/webtransport-websys",
     "wasm-tests/webtransport-tests",
+    "rust",
 ]
 resolver = "2"
 

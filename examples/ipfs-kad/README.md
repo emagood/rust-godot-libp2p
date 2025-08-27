@@ -51,7 +51,7 @@ Query finished with no closest peers.
 
 ### Inserting PK records into the DHT
 
-By specifying `put-pk-record` as a subcommand, the code will insert the generated public key as a PK record into the DHT.
+By specifying `cargo build` as a subcommand, the code will insert the generated public key as a PK record into the DHT.
 
 #### Parameters
 

@@ -10,15 +10,9 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
 //use crate::state::globals::{GLOBAL_IPS, VEC_DATA, DOWNLOADED_DATA, GLOBAL_ARRAY};
-use crate::state::{GLOBAL_IPS, VEC_DATA, DOWNLOADED_DATA, GLOBAL_ARRAY,GLOBAL_HTTP,IP_IPFS , ID_IPFS };
+use crate::state::{GLOBAL_IPS, VEC_DATA, DOWNLOADED_DATA, GLOBAL_ARRAY,GLOBAL_HTTP};
 
 
-
-use crate::torrent::peer;
-use crate::kadipfs::kad;
-//use torrent::peer;
-
-/*
 use std::{
     num::NonZeroUsize,
     ops::Add,
@@ -36,26 +30,35 @@ use libp2p::{
 use libp2p::Multiaddr;
 use libp2p::identity::PublicKey;
 use tracing_subscriber::EnvFilter;
-*/
 
+const BOOTNODES: [&str; 4] = [
+    "QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+    "QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+    "QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+];
 
+const IPFS_PROTO_NAME: StreamProtocol = StreamProtocol::new("/ipfs/kad/1.0.0");
+
+//use crate::torrent::peer;
+//use torrent::peer;
 
 #[derive(GodotClass)]
 #[class(base=Node)]
-pub struct Peerinfo {
+pub struct Peergodot {
     base: Base<Node>,
 }
 
 #[godot_api]
-impl INode for Peerinfo {
+impl INode for Peergodot {
     fn init(base: Base<Node>) -> Self {
-         godot_print!("Archivo leídos peer imnfo ");
+         godot_print!("Archivo leídopeerkad");
         Self { base }
     }
 }
 
 #[godot_api]
-impl Peerinfo {
+impl Peergodot {
 
 //probando las malditas señales
  #[godot_api(signals)]
@@ -65,12 +68,6 @@ impl Peerinfo {
     fn ips_actualizadas(data: GString);
     #[signal]
     fn http_actualizado(data: GString);
-
-    #[signal]
-    fn ips_ipfs(data: GString);
-    #[signal]
-    fn IDs_ipfs(data: GString);
-
 
     #[func]
     pub fn generate_random_8byte_number(&self) -> PackedByteArray {
@@ -122,22 +119,6 @@ impl Peerinfo {
     }
 
 
-   #[func]
-    pub fn run_ipfs(&self) -> PackedByteArray {
-        godot_print!("run ipfs se ejecuta ");
-        kad::run_libp2p_kad_flow();
-
-        let mut number = PackedByteArray::new();
-        let mut rng = RandomNumberGenerator::new_gd();
-        let my_seed = StringName::from("tsmdomtext").hash() as u64;
-        rng.set_seed(my_seed);
-        for _ in 0..8 {
-            number.push(rng.randi_range(0, 255) as u8);
-        }
-        number
-    }
-
-
 
 
     #[func]
@@ -146,14 +127,14 @@ pub fn filetraker(&mut self, _bytes: PackedByteArray) -> bool {
     match std::fs::read(ruta) {
         Ok(data) => {
             godot_print!("Archivo leído: {} bytes", data.len());
-           peer::print_peers(&ruta, _bytes.as_slice());
+         //  peer::print_peers(&ruta, _bytes.as_slice());
 
 
             true
         }
         Err(e) => {
             godot_error!("Error al leer archivo: {:?}", e);
-           peer::print_peers(&ruta, _bytes.as_slice());
+         //  peer::print_peers(&ruta, _bytes.as_slice());
             false
         }
     }
@@ -200,42 +181,6 @@ fn get_ips(&mut self) -> GString {
 
     self.base_mut().emit_signal("ips_actualizadas", &[GString::from(ip_str).to_variant()]);
     self.base_mut().emit_signal("http_actualizado", &[GString::from(http_str).to_variant()]);
-
-    resultado
-}
-
-
-
-
-#[func]
-fn get_ipfs(&mut self) -> GString {
-    let ips = match IP_IPFS.lock() {
-        Ok(i) => i,
-        Err(_) => return GString::from("[ERROR DE MUTEX IPs]"),
-    };
-
-    let ids = match ID_IPFS.lock() {
-        Ok(h) => h,
-        Err(_) => return GString::from("[ERROR DE MUTEX IPFS]"),
-    };
-
-    let ip_str = if ips.is_empty() {
-        "[SIN IPs]".to_string()
-    } else {
-        format!("IPs actuales: {}", ips.join(", "))
-    };
-
-    let idpf_str = if ids.is_empty() {
-        "[SIN IDs]".to_string()
-    } else {
-        format!("IDs parseado: {}", ids.join(", "))
-    };
-
-    let resultado = GString::from(format!("{}\n{}", ip_str, idpf_str));
-
-
-    self.base_mut().emit_signal("ips_ipfs", &[GString::from(ip_str).to_variant()]);
-    self.base_mut().emit_signal("IDs_ipfs", &[GString::from(idpf_str).to_variant()]);
 
     resultado
 }

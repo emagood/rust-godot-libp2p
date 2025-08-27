@@ -5,16 +5,13 @@ struct RustExtension;
 #[gdextension]
 unsafe impl ExtensionLibrary for RustExtension {}
 
-// quitar con confianza si compila
+//TODO: quitar con confianza si compila
 
-//mod fileseek;
+
+mod Peergodot;
 mod player;
-//mod filencoder;
-//mod toolgd;
-//mod peerseed;
+mod kadipfsgodot;
 mod peerinfo;
-
-
 mod state;
 mod torrent;
-//mod utils;
+mod kadipfs;

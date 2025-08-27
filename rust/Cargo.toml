@@ -8,11 +8,11 @@ license = "MIT"
 godot = "0.2.4"
 
 #tokio = { version = "1", features = ["full"] }
-#futures = "0.3"
+# /// futures = "0.3"
 #async-trait = "0.1"
 #parking_lot = "0.12"
 
-anyhow = "1.0.68"                                                  # ergonomic error handling with context support (e.g., `anyhow::Result`)
+# /// anyhow = "1.0.68"                                                  # ergonomic error handling with context support (e.g., `anyhow::Result`)
 bytes = "1.3.0"                                                    # for managing and manipulating byte buffers (used in torrent data exchange)
 clap = { version = "4.0.32", features = ["derive"] }               # command-line argument parser (for building CLI interfaces)
 hex = "0.4.3"                                                      # for hex encoding/decoding (used in info-hash/logging)
@@ -34,16 +34,31 @@ sha1 = "0.10.1"                                                    # hashing (to
 ## thiserror = "1.0.38"                                               # derive-based custom error enums (used for clean error reporting)
 tokio = { version = "1.23.0", features = ["full"] }                # async runtime (especially useful for multiple peer/tracker connections)
 rand = "0.8"                                                       # used to generate random peer IDs or other randomized data
+once_cell = "1.18.0"
+#### libp2p #####
+
+#tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+# // clap = { version = "4.5.6", features = ["derive"] }
+futures = { workspace = true }
+anyhow = "1.0.86"
+libp2p = { path = "../libp2p", features = [ "tokio", "dns", "kad", "noise", "tcp", "yamux", "rsa"] }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+
+
+[package.metadata.release]
+release = false
+#######################
 
 
 #futures-util = "0.3"
-once_cell = "1.18.0"
+
 # openssl = { version = "0.10", features = ["vendored"] }
 
 [lib]
 crate-type = ["cdylib"]
 
-[workspace]
+#[workspace]
 
-
+[lints]
+workspace = true
 

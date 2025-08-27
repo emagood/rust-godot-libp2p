@@ -9,6 +9,10 @@ use godot::classes::{
 use godot::classes::file_access::ModeFlags;
 use godot::global::Error;
 
+
+
+
+
 #[derive(GodotClass)]
 #[class(base=Sprite2D)]
 struct Player{
@@ -20,7 +24,7 @@ struct Player{
 #[godot_api]
 impl godot::classes::ISprite2D for Player{
     fn init(base: Base<Sprite2D>) -> Self {
-        godot_print!("Hello, LIBP2P!");
+        godot_print!("Hello, LIBP2P 26 2025!");
         Self {
             speed: 400.0,
             angular_speed: std::f64::consts::PI,
