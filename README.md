@@ -1,5 +1,6 @@
 # rust-godot-libp2p
 lib p2p and tracker torrent for godot
+for the project : https://github.com/emagood/Thot-P2P.git
 
 # proyecto libp2p en rust 
 https://github.com/libp2p/rust-libp2p.git
