@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3fda0qleb328"]
+
+[ext_resource type="Script" uid="uid://cahapf5oglm1q" path="res://rust-godot-libp2p/example-godot/jsondic.gd" id="1_mmkmu"]
+
+[node name="jsondic" type="Node"]
+script = ExtResource("1_mmkmu")

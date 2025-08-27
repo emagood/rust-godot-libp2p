@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7iskwgu5aphr"]
+
+[ext_resource type="Script" uid="uid://brdw7ivrdym3y" path="res://rust-godot-libp2p/example-godot/main.gd" id="1_hwn3c"]
+[ext_resource type="Texture2D" uid="uid://dcvpakna8i04d" path="res://godot-rust.png" id="2_ca0d4"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_hwn3c")
+
+[node name="Player" type="Player" parent="."]
+position = Vector2(903, 491)
+texture = ExtResource("2_ca0d4")
+
+[node name="Peerinfo" type="Peerinfo" parent="."]
+
+[connection signal="IDs_ipfs" from="Peerinfo" to="." method="_on_peerinfo_i_ds_ipfs"]
+[connection signal="ips_ipfs" from="Peerinfo" to="." method="_on_peerinfo_ips_ipfs"]
