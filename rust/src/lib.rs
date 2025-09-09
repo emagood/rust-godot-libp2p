@@ -10,8 +10,6 @@ unsafe impl ExtensionLibrary for RustExtension {}
 
 mod Peergodot;
 mod player;
-mod kadipfsgodot;
 mod peerinfo;
 mod state;
-mod torrent;
 mod kadipfs;

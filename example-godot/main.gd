@@ -10,7 +10,7 @@ func _ready() -> void:
 	return 
 	prints("hola mundo")
 	#var peer = $Peerinfo
-	peer.filetraker(read_file_as_bytes("res://example/sample.torrent"))
+	
 	prints(peer.get_ips())
 
 

@@ -14,7 +14,7 @@ use crate::state::{GLOBAL_IPS, VEC_DATA, DOWNLOADED_DATA, GLOBAL_ARRAY,GLOBAL_HT
 
 
 
-use crate::torrent::peer;
+
 use crate::kadipfs::kad;
 //use torrent::peer;
 
@@ -140,24 +140,6 @@ impl Peerinfo {
 
 
 
-    #[func]
-pub fn filetraker(&mut self, _bytes: PackedByteArray) -> bool {
-    let ruta = r"C:\Users\Emabe\Downloads\sample.torrent";
-    match std::fs::read(ruta) {
-        Ok(data) => {
-            godot_print!("Archivo leído: {} bytes", data.len());
-           peer::print_peers(&ruta, _bytes.as_slice());
-
-
-            true
-        }
-        Err(e) => {
-            godot_error!("Error al leer archivo: {:?}", e);
-           peer::print_peers(&ruta, _bytes.as_slice());
-            false
-        }
-    }
-}
 
 
   /*   #[func]
@@ -170,40 +152,6 @@ pub fn filetraker(&mut self, _bytes: PackedByteArray) -> bool {
 
 
 */
-
-#[func]
-fn get_ips(&mut self) -> GString {
-    let ips = match GLOBAL_IPS.lock() {
-        Ok(i) => i,
-        Err(_) => return GString::from("[ERROR DE MUTEX IPs]"),
-    };
-
-    let http = match GLOBAL_HTTP.lock() {
-        Ok(h) => h,
-        Err(_) => return GString::from("[ERROR DE MUTEX HTTP]"),
-    };
-
-    let ip_str = if ips.is_empty() {
-        "[SIN IPs]".to_string()
-    } else {
-        format!("IPs actuales: {}", ips.join(", "))
-    };
-
-    let http_str = if http.is_empty() {
-        "[SIN HTTP]".to_string()
-    } else {
-        format!("HTTP parseado: {}", http.join(", "))
-    };
-
-    let resultado = GString::from(format!("{}\n{}", ip_str, http_str));
-
-
-    self.base_mut().emit_signal("ips_actualizadas", &[GString::from(ip_str).to_variant()]);
-    self.base_mut().emit_signal("http_actualizado", &[GString::from(http_str).to_variant()]);
-
-    resultado
-}
-
 
 
 
